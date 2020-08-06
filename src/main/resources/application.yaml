@@ -1,0 +1,29 @@
+spring:
+  main:
+      allow-bean-definition-overriding: true
+  jpa:
+    properties:
+      hibernate:
+        jdbc:
+          lob:
+            non_contextual_creation: true
+  datasource:
+    url: jdbc:postgresql://localhost/quick_auction
+    username: postgres
+    password: postgres
+#  security:
+#    oauth2:
+#      client:
+#        clientId: 651948788399-jd35ofikqjon3btbu7l3uk7s07blen3b.apps.googleusercontent.com
+#        clientSecret: KMCdz-7G6sd4wiebNuX6WRAF
+#        clientAuthenticationScheme: form
+#        accessTokenUri: https://www.googleapis.com/oauth2/v4/token
+#        userAuthorizationUri: https://accounts.google.com/o/oauth2/v2/auth
+#        tokenName: oauth_token
+#        authenticationScheme: query
+#        scope: openid email profile
+#      resource:
+#        userInfoUri: https://www.googleapis.com/oauth2/v3/userinfo
+#        preferTokenInfo: true
+server:
+  port: 9000
