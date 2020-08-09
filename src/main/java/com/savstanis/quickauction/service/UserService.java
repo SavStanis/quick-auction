@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,7 +27,7 @@ public class UserService {
         this.roleRepository = roleRepository;
     }
 
-    public User register(User user) {
+    public User register(@Valid User user) throws UserAlreadyExistAuthenticationException {
         if (userRepository.findByUsername(user.getUsername()) != null) {
             throw new UserAlreadyExistAuthenticationException("User with this username already exists!");
         }

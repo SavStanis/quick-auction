@@ -1,0 +1,18 @@
+spring:
+  main:
+      allow-bean-definition-overriding: true
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  datasource:
+    url: jdbc:postgresql://localhost/quick_auction
+    username: postgres
+    password: postgres
+server:
+  port: 9000
+jwt:
+  token:
+    secret: VerYSecRet
+    expired: 7200000
+

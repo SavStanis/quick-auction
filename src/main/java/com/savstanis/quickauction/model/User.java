@@ -1,11 +1,14 @@
 package com.savstanis.quickauction.model;
 
 import lombok.Data;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
+import javax.validation.constraints.Size;
 import java.util.Date;
 import java.util.List;
 
@@ -18,21 +21,24 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Size(min = 4, max = 100)
     @Column(name = "username")
     private String username;
 
+    @Size(max = 100)
     @Email
     @Column(name = "email")
     private String email;
 
+    @Size(min = 8, max = 300)
     @Column(name = "password")
     private String password;
 
-    @CreatedDate
+    @CreationTimestamp
     @Column(name = "created")
     private Date created;
 
-    @LastModifiedDate
+    @UpdateTimestamp
     @Column(name = "last_update")
     private Date updated;
 

@@ -1,14 +1,11 @@
 package com.savstanis.quickauction.exceptions;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
-import org.springframework.security.core.AuthenticationException;
-
-public class UserAlreadyExistAuthenticationException  extends AuthenticationException {
-    public UserAlreadyExistAuthenticationException(String msg, Throwable t) {
-        super(msg, t);
-    }
-
-    public UserAlreadyExistAuthenticationException(String msg) {
-        super(msg);
+@ResponseStatus(code = HttpStatus.CONFLICT)
+public class UserAlreadyExistAuthenticationException  extends Exception {
+    public UserAlreadyExistAuthenticationException(String message) {
+        super(message);
     }
 }
