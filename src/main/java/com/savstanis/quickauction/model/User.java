@@ -8,6 +8,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
+import javax.validation.constraints.PositiveOrZero;
 import javax.validation.constraints.Size;
 import java.util.Date;
 import java.util.List;
@@ -34,6 +35,13 @@ public class User {
     @Column(name = "password")
     private String password;
 
+    @PositiveOrZero
+    @Column(name = "balance")
+    private Integer balance = 0;
+
+    @Column(name = "active")
+    private Boolean active = true;
+
     @CreationTimestamp
     @Column(name = "created")
     private Date created;
@@ -42,11 +50,17 @@ public class User {
     @Column(name = "last_update")
     private Date updated;
 
-
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_roles",
             joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")})
     private List<Role> roles;
 
+    @OneToMany
+    @JoinColumn(name = "seller_id")
+    private List<Lot> lotList;
+
+    @OneToMany
+    @JoinColumn(name = "customer_id")
+    private List<Lot> boughtLots;
 }

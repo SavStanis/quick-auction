@@ -1,4 +1,4 @@
-package com.savstanis.quickauction.dto;
+package com.savstanis.quickauction.dto.User;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.savstanis.quickauction.model.User;

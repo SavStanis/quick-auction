@@ -1,4 +1,4 @@
-package com.savstanis.quickauction.dto;
+package com.savstanis.quickauction.dto.User;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
@@ -16,4 +16,5 @@ public class AuthRequestDto {
 
     @Size(min = 8, message = "Password must contain at least 8 characters")
     private final String password;
+
 }

@@ -2,7 +2,7 @@ package com.savstanis.quickauction.controller;
 
 import com.savstanis.quickauction.Routes;
 import com.savstanis.quickauction.controller.response.ResponseEntityFactory;
-import com.savstanis.quickauction.dto.AuthRequestDto;
+import com.savstanis.quickauction.dto.User.AuthRequestDto;
 import com.savstanis.quickauction.exceptions.BadRequestException;
 import com.savstanis.quickauction.model.User;
 import com.savstanis.quickauction.security.JwtTokenProvider;

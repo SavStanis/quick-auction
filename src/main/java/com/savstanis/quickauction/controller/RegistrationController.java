@@ -2,9 +2,8 @@ package com.savstanis.quickauction.controller;
 
 import com.savstanis.quickauction.Routes;
 import com.savstanis.quickauction.controller.response.ResponseEntityFactory;
-import com.savstanis.quickauction.dto.RegisterRequestDto;
-import com.savstanis.quickauction.dto.UserDto;
-import com.savstanis.quickauction.exceptions.BadRequestException;
+import com.savstanis.quickauction.dto.User.RegisterRequestDto;
+import com.savstanis.quickauction.dto.User.UserDto;
 import com.savstanis.quickauction.exceptions.UserAlreadyExistAuthenticationException;
 import com.savstanis.quickauction.model.User;
 import com.savstanis.quickauction.service.UserService;
