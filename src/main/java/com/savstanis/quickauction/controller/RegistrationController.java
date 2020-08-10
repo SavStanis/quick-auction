@@ -1,6 +1,7 @@
 package com.savstanis.quickauction.controller;
 
 import com.savstanis.quickauction.Routes;
+import com.savstanis.quickauction.controller.response.ResponseEntityFactory;
 import com.savstanis.quickauction.dto.RegisterRequestDto;
 import com.savstanis.quickauction.dto.UserDto;
 import com.savstanis.quickauction.exceptions.BadRequestException;
@@ -32,15 +33,19 @@ public class RegistrationController {
     public ResponseEntity<UserDto> register(
             @RequestBody @Valid RegisterRequestDto registerRequestDto,
             BindingResult bindingResult
-    ) throws UserAlreadyExistAuthenticationException, BadRequestException {
+    ) {
+        try {
+            if (bindingResult.hasErrors()) {
+                return ResponseEntityFactory.getErrorResponse(
+                        bindingResult.getFieldError().getField(),
+                        bindingResult.getFieldError().getDefaultMessage()
+                );
+            }
+            User user = userService.register(registerRequestDto.toUser());
 
-        if (bindingResult.hasErrors()) {
-            throw new BadRequestException(
-                    bindingResult.getFieldError().getDefaultMessage()
-            );
+            return ResponseEntityFactory.getSuccessResponse("user", UserDto.fromUser(user));
+        } catch (UserAlreadyExistAuthenticationException e) {
+            return ResponseEntityFactory.getErrorResponse(e.getMessage());
         }
-
-        User user = userService.register(registerRequestDto.toUser());
-        return ResponseEntity.ok(UserDto.fromUser(user));
     }
 }

@@ -1,6 +1,7 @@
 package com.savstanis.quickauction.controller;
 
 import com.savstanis.quickauction.Routes;
+import com.savstanis.quickauction.controller.response.ResponseEntityFactory;
 import com.savstanis.quickauction.dto.AuthRequestDto;
 import com.savstanis.quickauction.exceptions.BadRequestException;
 import com.savstanis.quickauction.model.User;
@@ -10,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -42,13 +42,13 @@ public class AuthenticationController {
     public ResponseEntity login(
             @RequestBody @Valid AuthRequestDto requestDto,
             BindingResult bindingResult
-    ) throws BadRequestException {
+    ) {
         try {
-
             if (bindingResult.hasErrors()) {
-                throw new BadRequestException(
+                return ResponseEntityFactory.getErrorResponse(
+                        bindingResult.getFieldError().getField(),
                         bindingResult.getFieldError().getDefaultMessage()
-                );
+                        );
             }
 
             String username = requestDto.getUsername();
@@ -56,7 +56,7 @@ public class AuthenticationController {
             User user = userService.findByUsername(username);
 
             if (user == null) {
-                throw new UsernameNotFoundException("User: " + username + "not found");
+                throw new BadRequestException("Invalid username or password");
             }
 
             String token = jwtTokenProvider.createToken(username, user.getRoles());
@@ -65,9 +65,9 @@ public class AuthenticationController {
             response.put("username", username);
             response.put("token", token);
 
-            return ResponseEntity.ok(response);
+            return ResponseEntityFactory.getSuccessResponse("login", response);
         } catch (Exception e) {
-            throw new BadRequestException("Invalid email or password");
+            return ResponseEntityFactory.getErrorResponse("Invalid username or password");
         }
     }
 }

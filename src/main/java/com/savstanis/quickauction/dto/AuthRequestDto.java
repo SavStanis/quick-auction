@@ -9,9 +9,9 @@ import javax.validation.constraints.Size;
 @Data
 public class AuthRequestDto {
 
-    @Size(min = 4, max = 100)
+    @Size(min = 4, max = 100, message = "Username size must be between 4 and 100")
     private final String username;
 
-    @Size(min = 8, max = 300)
+    @Size(min = 8, message = "Password must contain at least 8 characters")
     private final String password;
 }

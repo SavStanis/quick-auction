@@ -1,5 +1,8 @@
 package com.savstanis.quickauction.security;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.savstanis.quickauction.controller.response.ResponseEntityFactory;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -37,8 +40,13 @@ public class JwtTokenFilter extends GenericFilterBean {
             }
             chain.doFilter(httpServletRequest, httpServletResponse);
         } catch (AuthenticationException e) {
+            ResponseEntity responseEntity = ResponseEntityFactory.getErrorResponse(e.getMessage());
+            String responseEntityJson = new ObjectMapper().writeValueAsString(responseEntity.getBody());
+
+            httpServletResponse.setStatus(HttpServletResponse.SC_FORBIDDEN);
             httpServletResponse.setContentType("application/json");
-            httpServletResponse.sendError(HttpServletResponse.SC_FORBIDDEN);
+            httpServletResponse.getWriter().write(responseEntityJson);
+            httpServletResponse.flushBuffer();
         }
     }
 }

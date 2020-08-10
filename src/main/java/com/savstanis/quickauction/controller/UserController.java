@@ -2,6 +2,7 @@ package com.savstanis.quickauction.controller;
 
 
 import com.savstanis.quickauction.Routes;
+import com.savstanis.quickauction.controller.response.ResponseEntityFactory;
 import com.savstanis.quickauction.dto.UserDto;
 import com.savstanis.quickauction.model.User;
 import com.savstanis.quickauction.service.UserService;
@@ -26,10 +27,10 @@ public class UserController {
     }
 
     @GetMapping
-    public ResponseEntity<List<UserDto>> getAll() {
+    public ResponseEntity getAll() {
         List<User> users = userService.getAll();
         List<UserDto> userDtos = users.stream().map(user -> UserDto.fromUser(user)).collect(Collectors.toList());
 
-        return ResponseEntity.ok(userDtos);
+        return ResponseEntityFactory.getSuccessResponse("users", userDtos);
     }
 }

@@ -11,14 +11,14 @@ import javax.validation.constraints.Size;
 @Data
 public class RegisterRequestDto {
 
-    @Size(min = 4, max = 100)
+    @Size(min = 4, max = 100,  message = "Username size must be between 4 and 100")
     private String username;
 
-    @Email
-    @Size(max = 100)
+    @Email(message = "Invalid email")
+    @Size(max = 100,  message = "Email must contain less then 100 characters")
     private String email;
 
-    @Size(min = 8, max = 300)
+    @Size(min = 8, message = "Password must contain at least 8 characters")
     private String password;
 
     public User toUser() {
