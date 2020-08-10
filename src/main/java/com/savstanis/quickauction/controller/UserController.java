@@ -29,7 +29,7 @@ public class UserController {
     @GetMapping
     public ResponseEntity getAll() {
         List<User> users = userService.getAll();
-        List<UserDto> userDtos = users.stream().map(user -> UserDto.fromUser(user)).collect(Collectors.toList());
+        List<UserDto> userDtos = users.stream().map(UserDto::fromUser).collect(Collectors.toList());
 
         return ResponseEntityFactory.getSuccessResponse("users", userDtos);
     }

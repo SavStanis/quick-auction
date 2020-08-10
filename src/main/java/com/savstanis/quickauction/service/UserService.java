@@ -43,9 +43,7 @@ public class UserService {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         user.setRoles(roleList);
 
-        User registeredUser = userRepository.save(user);
-
-        return registeredUser;
+        return userRepository.save(user);
     }
 
     public List<User> getAll() {
@@ -53,23 +51,15 @@ public class UserService {
     }
 
     public User findByUsername(String username) {
-        User user = userRepository.findByUsername(username);
+        return userRepository.findByUsername(username);
+    }
 
-        if (user == null) {
-            return null;
-        }
-
-        return user;
+    public User findByEmail(String email) {
+        return userRepository.findByEmail(email);
     }
 
     public User findById(Long id) {
-        User user = userRepository.findById(id).orElse(null);
-
-        if (user == null) {
-            return null;
-        }
-
-        return user;
+        return userRepository.findById(id).orElse(null);
     }
 
     public void delete(Long id) {

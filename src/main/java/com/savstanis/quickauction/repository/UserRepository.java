@@ -4,6 +4,6 @@ import com.savstanis.quickauction.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface UserRepository extends JpaRepository<User, Long> {
-    public User findByUsername(String username);
-    public User findByEmail(String email);
+    User findByUsername(String username);
+    User findByEmail(String email);
 }

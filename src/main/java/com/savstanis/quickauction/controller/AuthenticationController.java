@@ -48,26 +48,26 @@ public class AuthenticationController {
                 return ResponseEntityFactory.getErrorResponse(
                         bindingResult.getFieldError().getField(),
                         bindingResult.getFieldError().getDefaultMessage()
-                        );
+                );
             }
 
-            String username = requestDto.getUsername();
-            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, requestDto.getPassword()));
-            User user = userService.findByUsername(username);
+            String email = requestDto.getEmail();
+            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, requestDto.getPassword()));
+            User user = userService.findByEmail(email);
 
             if (user == null) {
-                throw new BadRequestException("Invalid username or password");
+                throw new BadRequestException("Invalid email or password");
             }
 
-            String token = jwtTokenProvider.createToken(username, user.getRoles());
+            String token = jwtTokenProvider.createToken(email, user.getRoles());
 
             Map<Object, Object> response = new HashMap<>();
-            response.put("username", username);
+            response.put("email", email);
             response.put("token", token);
 
             return ResponseEntityFactory.getSuccessResponse("login", response);
         } catch (Exception e) {
-            return ResponseEntityFactory.getErrorResponse("Invalid username or password");
+            return ResponseEntityFactory.getErrorResponse("Invalid email or password");
         }
     }
 }

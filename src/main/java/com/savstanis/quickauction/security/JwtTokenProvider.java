@@ -26,10 +26,10 @@ public class JwtTokenProvider {
     @Value("${jwt.token.expired}")
     private long expiredMs;
 
-    private UserDetailsService userDetailsService;
+    private final UserDetailsService userDetailsService;
 
     @Autowired
-    public JwtTokenProvider(UserDetailsService userDetailsService) {
+    public JwtTokenProvider(UserDetailsServiceImpl userDetailsService) {
         this.userDetailsService = userDetailsService;
     }
 
@@ -39,13 +39,13 @@ public class JwtTokenProvider {
     }
 
     public Authentication getAuthentication(String token) {
-        UserDetails userDetails = userDetailsService.loadUserByUsername(getUsername(token));
+        UserDetails userDetails = userDetailsService.loadUserByUsername(getEmail(token));
         return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
     }
 
-    public String createToken(String username, List<Role> roles) {
-        Claims claims = Jwts.claims().setSubject(username);
-        claims.put("roles", roles.stream().map(role -> role.getName()));
+    public String createToken(String email, List<Role> roles) {
+        Claims claims = Jwts.claims().setSubject(email);
+        claims.put("roles", roles.stream().map(Role::getName));
 
         Date now = new Date();
         Date expired = new Date(now.getTime() + expiredMs);
@@ -58,7 +58,7 @@ public class JwtTokenProvider {
                 .compact();
     }
 
-    public String getUsername(String token) {
+    public String getEmail(String token) {
         return  Jwts.parser().setSigningKey(secretWord).parseClaimsJws(token).getBody().getSubject();
     }
 
