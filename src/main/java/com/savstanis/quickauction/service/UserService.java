@@ -1,11 +1,14 @@
 package com.savstanis.quickauction.service;
 
+import com.savstanis.quickauction.exceptions.BadRequestException;
 import com.savstanis.quickauction.exceptions.UserAlreadyExistAuthenticationException;
 import com.savstanis.quickauction.model.Role;
 import com.savstanis.quickauction.model.User;
 import com.savstanis.quickauction.repository.RoleRepository;
 import com.savstanis.quickauction.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -62,7 +65,23 @@ public class UserService {
         return userRepository.findById(id).orElse(null);
     }
 
-    public void delete(Long id) {
-        userRepository.deleteById(id);
+    public Boolean replenishBalance(Long id, Integer sum) throws BadRequestException {
+        User user = findById(id);
+        String current_user_name = getCurrentUserUsername();
+
+        if (user == null || !current_user_name.equals(user.getUsername())) {
+            throw new BadRequestException();
+        }
+
+        user.setBalance(user.getBalance() + sum);
+        userRepository.save(user);
+        return true;
+    }
+
+    private String getCurrentUserUsername() {
+        return ((UserDetails) SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getPrincipal()).getUsername();
     }
 }

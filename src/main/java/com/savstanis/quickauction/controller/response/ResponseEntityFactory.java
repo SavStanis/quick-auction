@@ -19,6 +19,13 @@ public class ResponseEntityFactory {
         return ResponseEntity.ok(body);
     }
 
+    public static ResponseEntity getSuccessResponse() {
+        Map<Object, Object> body = new LinkedHashMap<>();
+        body.put("status", "success");
+
+        return ResponseEntity.ok(body);
+    }
+
     public static ResponseEntity getErrorResponse(String name, Object data) {
         Map<Object, Object> body = new LinkedHashMap<>();
         Map<Object, Object> errors = new HashMap<>();
