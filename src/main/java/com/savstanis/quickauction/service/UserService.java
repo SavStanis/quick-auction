@@ -2,13 +2,15 @@ package com.savstanis.quickauction.service;
 
 import com.savstanis.quickauction.exceptions.BadRequestException;
 import com.savstanis.quickauction.exceptions.UserAlreadyExistAuthenticationException;
+import com.savstanis.quickauction.model.Lot;
 import com.savstanis.quickauction.model.Role;
 import com.savstanis.quickauction.model.User;
+import com.savstanis.quickauction.repository.LotRepository;
 import com.savstanis.quickauction.repository.RoleRepository;
 import com.savstanis.quickauction.repository.UserRepository;
+import com.savstanis.quickauction.security.UserDetailsImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -22,12 +24,14 @@ public class UserService {
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final RoleRepository roleRepository;
+    private final LotRepository lotRepository;
 
     @Autowired
-    public UserService(UserRepository userRepository, BCryptPasswordEncoder bCryptPasswordEncoder, RoleRepository roleRepository) {
+    public UserService(UserRepository userRepository, BCryptPasswordEncoder bCryptPasswordEncoder, RoleRepository roleRepository, LotRepository lotRepository) {
         this.userRepository = userRepository;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
         this.roleRepository = roleRepository;
+        this.lotRepository = lotRepository;
     }
 
     public User register(@Valid User user) throws UserAlreadyExistAuthenticationException {
@@ -53,6 +57,17 @@ public class UserService {
         return userRepository.findAll();
     }
 
+    public List<Lot> findLotsBySellerId(Long userId) throws BadRequestException {
+        User seller = findById(userId);
+        String current_user_name = getCurrentUser().getUsername();
+
+        if (seller == null || !current_user_name.equals(seller.getUsername())) {
+            throw new BadRequestException();
+        }
+
+      return lotRepository.findBySeller(seller);
+    }
+
     public User findByUsername(String username) {
         return userRepository.findByUsername(username);
     }
@@ -65,9 +80,10 @@ public class UserService {
         return userRepository.findById(id).orElse(null);
     }
 
-    public Boolean replenishBalance(Long id, Integer sum) throws BadRequestException {
+
+    public Boolean replenishUserBalance(Long id, Integer sum) throws BadRequestException {
         User user = findById(id);
-        String current_user_name = getCurrentUserUsername();
+        String current_user_name = getCurrentUser().getUsername();
 
         if (user == null || !current_user_name.equals(user.getUsername())) {
             throw new BadRequestException();
@@ -78,10 +94,11 @@ public class UserService {
         return true;
     }
 
-    private String getCurrentUserUsername() {
-        return ((UserDetails) SecurityContextHolder
+
+    private UserDetailsImpl getCurrentUser() {
+        return (UserDetailsImpl) SecurityContextHolder
                 .getContext()
                 .getAuthentication()
-                .getPrincipal()).getUsername();
+                .getPrincipal();
     }
 }

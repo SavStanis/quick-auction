@@ -29,10 +29,9 @@ public class Lot {
     @Column(name = "description")
     private String description;
 
-    @NotNull
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
-    private LotStatus lotStatus;
+    private LotStatus lotStatus = LotStatus.ACTIVE;
 
     @NotNull
     @ManyToOne(optional = false)
