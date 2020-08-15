@@ -8,7 +8,7 @@ import lombok.Data;
 @Data
 public class ExtendedLotDto  extends  LotDto{
 
-    private long id;
+    private Long id;
 
     private LotStatus lotStatus;
 

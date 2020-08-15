@@ -8,5 +8,5 @@ public class Routes {
     public static final String REGISTER = API_ROUTE + "/register";
     public static final String USER = API_ROUTE + "/users";
     public static final String LOT = API_ROUTE + "/lots";
-
+    public static final String BID = API_ROUTE + "/bids";
 }
