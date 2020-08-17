@@ -51,4 +51,7 @@ public class Lot {
     @Column(name = "created")
     private Date created;
 
+    @Column(name = "finish_date")
+    private Date finishDate = new Date(new Date().getTime() + 86400000l);
+
 }
