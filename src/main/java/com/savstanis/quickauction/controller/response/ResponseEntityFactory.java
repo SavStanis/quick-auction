@@ -14,7 +14,7 @@ public class ResponseEntityFactory {
 
         body.put("status", "success");
         dataMap.put(name, data);
-        body.put("data", dataMap);
+        body.put("payload", dataMap);
 
         return ResponseEntity.ok(body);
     }

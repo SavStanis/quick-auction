@@ -29,7 +29,6 @@ public class Scheduler {
     @Transactional
     @Scheduled(fixedDelay = 2000)
     public void checkActiveLots() {
-        System.out.println("Hello Scheduler");
         List<Lot> activeLots = lotRepository.findAllByLotStatus(LotStatus.ACTIVE);
 
         Date now = new Date();
