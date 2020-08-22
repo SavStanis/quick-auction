@@ -1,5 +1,6 @@
 package com.savstanis.quickauction.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import lombok.Generated;
 import org.hibernate.annotations.CreationTimestamp;

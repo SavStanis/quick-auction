@@ -1,6 +1,8 @@
 import React, {useEffect, useState} from "react";
 import httpClient from '../../config/axiosClient';
 
+import LotList from "../../components/LotList/LotList";
+import RegistrationPage from "../RegistrationPage/RegistrationPage";
 
 function MainPage() {
 
@@ -21,14 +23,7 @@ function MainPage() {
 
     return (
         <div>
-            {
-                lotList.map((lot, i) => {
-                    return (<div>
-                        <div>{lot.name}</div>
-                        <div>{lot.price}</div>
-                    </div>);
-                })
-            }
+            <LotList lots={lotList}></LotList>
         </div>
     );
 }

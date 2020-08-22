@@ -1,0 +1,11 @@
+
+.lot-list {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 20px;
+}
+
+.card {
+    margin: 5px;
+    width: 18rem;
+}
