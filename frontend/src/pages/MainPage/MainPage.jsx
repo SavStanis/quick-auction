@@ -3,6 +3,7 @@ import httpClient from '../../config/axiosClient';
 
 import LotList from "../../components/LotList/LotList";
 import RegistrationPage from "../RegistrationPage/RegistrationPage";
+import PageHeader from "../../components/PageHeader/PageHeader";
 
 function MainPage() {
 
@@ -23,6 +24,7 @@ function MainPage() {
 
     return (
         <div>
+            <PageHeader/>
             <LotList lots={lotList}></LotList>
         </div>
     );

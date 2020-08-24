@@ -5,9 +5,10 @@ import axiosClient from "../../config/axiosClient";
 
 import {Form, Button} from "react-bootstrap";
 
-const RegistrationForm = () => {
+const LoginForm = () => {
 
     const [redirect, setRedirect] = useState(false);
+
 
     const handleSubmit = async (event) => {
         const form = event.currentTarget;
@@ -16,13 +17,17 @@ const RegistrationForm = () => {
         if (form.checkValidity() === true) {
 
             const data = {
-                username: form.elements.formBasicUsername.value,
                 email: form.elements.formBasicEmail.value,
                 password: form.elements.formBasicPassword.value
             }
             try {
                 const response = await axiosClient
-                    .post("/register", data);
+                    .post("/login", data);
+
+                localStorage.setItem("user", response.data.payload.login.username);
+                localStorage.setItem("email", response.data.payload.login.email);
+                localStorage.setItem("token", response.data.payload.login.token);
+
                 setRedirect(true);
             } catch (error) {
                 console.log(error);
@@ -45,11 +50,6 @@ const RegistrationForm = () => {
                 <Form.Control type="email" placeholder="Enter email" />
             </Form.Group>
 
-            <Form.Group controlId="formBasicUsername">
-                <Form.Label>Username</Form.Label>
-                <Form.Control type="text" placeholder="Username" />
-            </Form.Group>
-
             <Form.Group controlId="formBasicPassword">
                 <Form.Label>Password</Form.Label>
                 <Form.Control type="password" placeholder="Password" />
@@ -62,4 +62,4 @@ const RegistrationForm = () => {
     )
 }
 
-export default RegistrationForm;
+export default LoginForm;
