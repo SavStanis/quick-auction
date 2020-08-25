@@ -1,0 +1,17 @@
+
+.profile-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+#profile {
+    width: 50%;
+}
+
+@media screen and (max-width: 1000px){
+    #profile {
+        width: 100%;
+    }
+}
+

@@ -2,7 +2,6 @@ import React, {useEffect, useState} from "react";
 import httpClient from '../../config/axiosClient';
 
 import LotList from "../../components/LotList/LotList";
-import RegistrationPage from "../RegistrationPage/RegistrationPage";
 import PageHeader from "../../components/PageHeader/PageHeader";
 
 function MainPage() {
@@ -10,6 +9,7 @@ function MainPage() {
     const [lotList, setLotList] = useState([]);
 
     useEffect(() => {
+
         const getActiveLots = async () => {
             try {
                 const response = await httpClient.get('/lots');
@@ -18,7 +18,6 @@ function MainPage() {
                 console.log(error);
             }
         }
-
         getActiveLots();
     }, []);
 

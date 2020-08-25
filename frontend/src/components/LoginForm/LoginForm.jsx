@@ -26,8 +26,9 @@ const LoginForm = () => {
 
                 localStorage.setItem("user", response.data.payload.login.username);
                 localStorage.setItem("email", response.data.payload.login.email);
+                localStorage.setItem("id", response.data.payload.login.id);
                 localStorage.setItem("token", response.data.payload.login.token);
-
+                console.log(localStorage.getItem("id"));
                 setRedirect(true);
             } catch (error) {
                 console.log(error);

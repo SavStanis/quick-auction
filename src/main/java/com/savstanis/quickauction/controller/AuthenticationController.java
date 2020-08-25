@@ -65,6 +65,7 @@ public class AuthenticationController {
             response.put("username", user.getUsername());
             response.put("email", email);
             response.put("token", token);
+            response.put("id", user.getId());
 
             return ResponseEntityFactory.getSuccessResponse("login", response);
         } catch (Exception e) {

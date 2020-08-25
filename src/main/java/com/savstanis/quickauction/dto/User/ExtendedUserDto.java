@@ -12,6 +12,8 @@ public class ExtendedUserDto extends UserDto{
 
     private Integer balance;
 
+    private String creationDate;
+
     public static ExtendedUserDto fromUser(User user) {
         ExtendedUserDto userDto = new ExtendedUserDto();
 
@@ -19,6 +21,7 @@ public class ExtendedUserDto extends UserDto{
         userDto.setUsername(user.getUsername());
         userDto.setEmail(user.getEmail());
         userDto.setBalance(user.getBalance());
+        userDto.setCreationDate(user.getCreated().toString());
 
         return userDto;
     }

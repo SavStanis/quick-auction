@@ -1,10 +1,12 @@
 import React, {useEffect, useState} from "react";
 import {Button, Navbar, Nav} from "react-bootstrap";
-import {Link} from "react-router-dom";
+import {Redirect, Link} from "react-router-dom";
 
 const PageHeader = () => {
 
     const [username, setUsername] = useState(localStorage.getItem("user"));
+    const [redirect, setRedirect] = useState(false);
+
 
     const logout = () => {
         localStorage.removeItem("user");
@@ -12,6 +14,7 @@ const PageHeader = () => {
         localStorage.removeItem("token");
 
         setUsername(null);
+        setRedirect(true);
     }
 
     useEffect(() => {
@@ -30,7 +33,7 @@ const PageHeader = () => {
         return () => {
             window.removeEventListener('keydown', checkUser);
         };
-    },[]);
+    },[redirect]);
 
     const userLogin = (
         <Navbar.Collapse id="responsive-navbar-nav">
@@ -38,7 +41,7 @@ const PageHeader = () => {
 
             </Nav>
             <Nav>
-                <Link className={"nav-link"} to={"/"}>{localStorage.getItem("user")}</Link>
+                <Link className={"nav-link"} to={"/user"}>{localStorage.getItem("user")}</Link>
             </Nav>
             <Nav>
                 <Button className={"btn-dark"} onClick={logout}>Logout</Button>
@@ -66,6 +69,12 @@ const PageHeader = () => {
         } else {
             return userLogout;
         }
+    }
+
+    if (redirect) {
+        return (
+            <Redirect to={"/"}/>
+        );
     }
 
     return (
